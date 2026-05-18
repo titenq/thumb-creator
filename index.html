@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="assets/favicon.ico" type="image/x-icon" />
+    <title>Thumb Creator - OsProgramadores</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="stage" aria-label="Prévia da thumbnail">
+        <div class="canvas-wrap">
+          <canvas id="thumbCanvas" width="1280" height="720"></canvas>
+        </div>
+      </section>
+
+      <aside class="panel" aria-label="Controles da thumbnail">
+        <div class="panel-header">
+          <h1>Thumb Creator</h1>
+          <p>OsProgramadores Podcast</p>
+        </div>
+
+        <form id="thumbForm">
+          <label>
+            <span>Episódio</span>
+            <input id="episodeInput" type="number" min="1" value="000" inputmode="numeric">
+          </label>
+
+          <label>
+            <span>Nome do convidado</span>
+            <input id="guestInput" type="text" value="NOME DO CONVIDADO" maxlength="90">
+          </label>
+
+          <label>
+            <span>Descrição</span>
+            <textarea id="descriptionInput" rows="3" maxlength="150">Descrição do convidado</textarea>
+          </label>
+
+          <label>
+            <span>Foto do convidado</span>
+            <input id="photoInput" class="file-input" type="file" accept="image/*">
+            <span class="file-picker">
+              <span class="file-button">Escolher arquivo</span>
+              <span id="fileName" class="file-name">Nenhum arquivo selecionado</span>
+            </span>
+          </label>
+        </form>
+
+        <div class="controls">
+          <div class="control-row">
+            <label for="scaleInput">Zoom</label>
+            <input id="scaleInput" type="range" min="0.4" max="3" value="1" step="0.01">
+          </div>
+
+          <div class="control-row">
+            <label for="xInput">Horizontal</label>
+            <input id="xInput" type="range" min="-360" max="360" value="0" step="1">
+          </div>
+
+          <div class="control-row">
+            <label for="yInput">Vertical</label>
+            <input id="yInput" type="range" min="-360" max="360" value="0" step="1">
+          </div>
+
+          <div class="button-grid">
+            <button id="centerButton" type="button">Centralizar foto</button>
+            <button id="downloadButton" type="button">Baixar PNG</button>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
