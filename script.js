@@ -20,6 +20,7 @@ const displayFont = '"Bebas Neue", "Arial Narrow", Impact, sans-serif';
 
 const template = new Image();
 
+template.crossOrigin = "anonymous";
 template.src = "assets/template-bg.png";
 
 const state = {
@@ -429,21 +430,22 @@ const loadPhoto = (file) => {
 
   inputs.fileName.textContent = file.name;
 
-  const reader = new FileReader();
+  const image = new Image();
+  const imageUrl = URL.createObjectURL(file);
 
-  reader.onload = () => {
-    const image = new Image();
-
-    image.onload = () => {
-      state.photo = image;
-      state.photoName = file.name.replace(/\.[^.]+$/, "") || "thumb-osprogramadores";
-      centerPhoto();
-    };
-
-    image.src = reader.result;
+  image.onload = () => {
+    URL.revokeObjectURL(imageUrl);
+    state.photo = image;
+    state.photoName = file.name.replace(/\.[^.]+$/, "") || "thumb-osprogramadores";
+    centerPhoto();
   };
 
-  reader.readAsDataURL(file);
+  image.onerror = () => {
+    URL.revokeObjectURL(imageUrl);
+    inputs.fileName.textContent = "Não foi possível carregar a imagem";
+  };
+
+  image.src = imageUrl;
 };
 
 const downloadThumb = async () => {
@@ -463,9 +465,13 @@ const downloadThumb = async () => {
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-|-$/g, "");
   
-  link.download = `osprogramadores-episodio-${episode}-${guest || state.photoName}.png`;
-  link.href = canvas.toDataURL("image/png");
-  link.click();
+  try {
+    link.download = `osprogramadores-episodio-${episode}-${guest || state.photoName}.png`;
+    link.href = canvas.toDataURL("image/png");
+    link.click();
+  } catch {
+    alert("Não foi possível baixar a imagem. Recarregue a página e selecione a foto novamente pelo botão de arquivo.");
+  }
 };
 
 const canvasPoint = (event) => {
